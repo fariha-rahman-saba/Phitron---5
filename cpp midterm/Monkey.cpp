@@ -1,25 +1,33 @@
 #include <iostream>
-#include <string>
-#include<algorithm>
+#include <algorithm>
+
 using namespace std;
 
-int main(){
-    string s;
-    while (getline(cin, s))
+int main()
+{
+    char s[100001];
+
+    while (cin.getline(s, 100001))
     {
-        sort(s.begin(),s.end());
-        
-        for (int i = 0; i < s.length(); i++)
+        int i = 0, len = 0;
+        while (s[i] != '\0')
         {
-            if (s[i]==' ')
+            len++;
+            i++;
+        }
+
+        sort(s, s + len);
+
+        for (int i = 0; i < len; i++)
+        {
+            if (s[i] == ' ')
             {
                 continue;
             }
-            else cout<<s[i];
-            
+            else
+                cout << s[i];
         }
-        cout<<endl;
-        
+
+        cout << endl;
     }
-    
 }
