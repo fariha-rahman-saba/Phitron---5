@@ -5,7 +5,6 @@ int main()
     int t, q;
     string s;
     queue<string> que;
-
     cin >> t;
     while (t--)
     {
