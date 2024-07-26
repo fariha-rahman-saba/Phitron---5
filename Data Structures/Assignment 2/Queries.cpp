@@ -51,11 +51,11 @@ void delete_index(int index, Node *&head, Node *&tail)
 
     if (index == 0)
     {
-        Node *temp = head;
+        Node *tmp = head;
         head = head->next;
         if (head == NULL)
             tail = NULL;
-        delete temp;
+        delete tmp;
         return;
     }
 

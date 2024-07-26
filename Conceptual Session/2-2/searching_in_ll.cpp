@@ -23,41 +23,25 @@ void insert_tail(Node *&head, Node *&tail, int val)
     tail->next = newNode;
     tail = newNode;
 }
-void print_linked_list(Node *head)
+void search(Node *head, int x)
 {
+    int flag = 0;
     Node *tmp = head;
     while (tmp != NULL)
     {
-        cout << tmp->val << " ";
-        tmp = tmp->next;
-    }
-    cout << endl;
-}
-
-void delete_val(Node *&head, int x)
-{
-    if(head->val == x)
-    {
-        Node* deletenode = head;
-        head = head->next;
-        delete deletenode;
-        return;
-    }
-
-    Node *tmp = head;
-    while (tmp->next != NULL)
-    {
-        if(tmp->next->val == x)
+        if(tmp->val == x)
         {
-            Node* deletenode = tmp->next;
-            tmp->next = tmp->next->next;
-            delete deletenode;
+            flag = 1;
             break;
         }
         tmp = tmp->next;
     }
+    
+    if(flag==1)
+        cout << "YES\n";
+    else
+        cout << "NO\n";
 }
-
 int main()
 {
     Node *head = NULL;
@@ -70,9 +54,15 @@ int main()
             break;
         insert_tail(head, tail, val);
     }
-    
-    
-    delete_val(head,x);
-    print_linked_list(head);
+    int x;
+    cin >> x;
+    search(head,x);
     return 0;
 }
+
+
+// Linear Search -> O(N)
+// Sort -> O(NlogN)
+// Binary Search -> O(logN)
+// ---------------------------
+//              -> O(NlogN) + O(logN)  =  O(NlogN)
