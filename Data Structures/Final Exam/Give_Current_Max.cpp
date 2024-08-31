@@ -18,13 +18,9 @@ public:
 };
 
 Student find_max(vector<Student> &students) {
-    Student emp;
-    emp.name = "Empty";
-    emp.roll = -1;
-    emp.marks = -1;
     
     if (students.empty()) {
-        return emp;
+        return {"Empty",-1,-1};
     }
 
     sort(students.begin(), students.end(), cmp());
