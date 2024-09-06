@@ -1,21 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool vis[20][20];
-vector<pair<int, int>> d = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
 int n, m;
-char a[20][20];
+char grid[1000][1000];
+bool visited[1000][1000];
 
-bool valid(int i, int j) {
-    if (i < 0 || i >= n || j < 0 || j >= m)
-        return false;
-    return a[i][j] == '.' || a[i][j] == 'B';
+int dx[4] = {-1, 0, 1, 0};
+int dy[4] = {0, 1, 0, -1};
+
+bool isValid(int x, int y) {
+    return (x >= 0 && x < n && y >= 0 && y < m && (grid[x][y] == '.' || grid[x][y] == 'B') && !visited[x][y]);
 }
 
 bool bfs(int startX, int startY, int targetX, int targetY) {
     queue<pair<int, int>> q;
     q.push({startX, startY});
-    vis[startX][startY] = true;
+    visited[startX][startY] = true;
 
     while (!q.empty()) {
         auto [x, y] = q.front();
@@ -25,40 +25,42 @@ bool bfs(int startX, int startY, int targetX, int targetY) {
             return true;
         }
 
-        for (auto [dx, dy] : d) {
-            int nx = x + dx;
-            int ny = y + dy;
-            if (valid(nx, ny) && !vis[nx][ny]) {
-                vis[nx][ny] = true;
-                q.push({nx, ny});
+        for (int i = 0; i < 4; i++) {
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+            if (isValid(newX, newY)) {
+                visited[newX][newY] = true;
+                q.push({newX, newY});
             }
         }
     }
+    
     return false;
 }
 
 int main() {
     cin >> n >> m;
+    
     pair<int, int> start, end;
-
+    
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            cin >> a[i][j];
-            if (a[i][j] == 'A') {
+            cin >> grid[i][j];
+            if (grid[i][j] == 'A') {
                 start = {i, j};
-            } else if (a[i][j] == 'B') {
+            } else if (grid[i][j] == 'B') {
                 end = {i, j};
             }
         }
     }
-
-    memset(vis, false, sizeof(vis));
+    
+    memset(visited, false, sizeof(visited));
     
     if (bfs(start.first, start.second, end.first, end.second)) {
         cout << "YES" << endl;
     } else {
         cout << "NO" << endl;
     }
-
+    
     return 0;
 }
