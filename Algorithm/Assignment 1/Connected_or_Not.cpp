@@ -1,49 +1,34 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 1e5 + 5;
-vector<int> adj[N];
 
-int main()
-{
+bool adj[1000][1000] = {false};
+
+int main() {
     int n, e;
     cin >> n >> e;
-
-    while (e--)
-    {
-        int a, b;
-        cin >> a >> b;
-        adj[a].push_back(b);  // Directed graph: edge from a to b
-    }
-
-    int q;
-    cin >> q;
-
-    while (q--)
-    {
+    
+    for (int i = 0; i < e; i++) {
         int u, v;
         cin >> u >> v;
-
-        bool found = false;
-        
-        // Check if there is a direct edge from u to v
-        for (int child : adj[u])
-        {
-            if (child == v)
-            {
-                found = true;
-                break;
-            }
-        }
-
-        if (found)
+        adj[u][v] = true;
+    }
+    
+    int q;
+    cin >> q;
+    
+    for (int i = 0; i < q; i++) {
+        int u, v;
+        cin >> u >> v;
+        if(u==v)
         {
             cout << "YES" << endl;
         }
-        else
-        {
+        else if (adj[u][v]) {
+            cout << "YES" << endl;
+        } else {
             cout << "NO" << endl;
         }
     }
-
+    
     return 0;
 }
