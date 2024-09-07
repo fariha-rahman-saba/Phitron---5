@@ -1,74 +1,65 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-char graph[1001][1001];
-bool vis[1001][1001];
-
+vector<vector<char>> graph;
+vector<vector<bool>> visited;
 int n, m;
 
 int dx[4] = {-1, 0, 1, 0};
 int dy[4] = {0, 1, 0, -1};
 
 bool valid(int x, int y) {
-    return (x >= 0 && x < n && y >= 0 && y < m && graph[x][y] == '.' && !vis[x][y]);
+  return (x >= 0 && x < n && y >= 0 && y < m && graph[x][y] == '.' && !visited[x][y]);
 }
 
-int bfs(int si, int sj) {
-    queue<pair<int, int>> q;
-    q.push({si, sj});
-    vis[si][sj] = true;
-    int roomCount = 0;
+void dfs(int x, int y, int &roomCount) {
+  visited[x][y] = true;
+  roomCount++;
 
-    while (!q.empty()) {
-        auto [nrow, ncol] = q.front();
-        q.pop();
-        roomCount++;
-
-        for (int i = 0; i < 4; i++) {
-            int ci = nrow + dx[i];
-            int cj = ncol + dy[i];
-            if (valid(ci, cj)) {
-                vis[ci][cj] = true;
-                q.push({ci, cj});
-            }
-        }
+  for (int i = 0; i < 4; i++) {
+    int nx = x + dx[i];
+    int ny = y + dy[i];
+    if (valid(nx, ny)) {
+      dfs(nx, ny, roomCount);
     }
-
-    return roomCount;
+  }
 }
 
 int main() {
-    cin >> n >> m;
+  cin >> n >> m;
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            cin >> graph[i][j];
-        }
+  graph.resize(n, vector<char>(m));
+  visited.resize(n, vector<bool>(m, false));
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      cin >> graph[i][j];
     }
+  }
 
-    memset(vis, false, sizeof(vis));
-    vector<int> apartmentSizes;
+  vector<int> apartmentSizes;
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (graph[i][j] == '.' && !vis[i][j]) {
-                int size = bfs(i, j);
-                apartmentSizes.push_back(size);
-            }
-        }
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      if (graph[i][j] == '.' && !visited[i][j]) {
+        int roomCount = 0; 
+        dfs(i, j, roomCount);
+        apartmentSizes.push_back(roomCount);
+      }
     }
+  }
 
-    sort(apartmentSizes.begin(), apartmentSizes.end());
+  sort(apartmentSizes.begin(), apartmentSizes.end());
 
-    if (apartmentSizes.empty()) {
-        cout << endl;
-    } else {
-        for (size_t i = 0; i < apartmentSizes.size(); i++) {
-            cout << apartmentSizes[i];
-            if (i < apartmentSizes.size() - 1) cout << " ";
-        }
-        cout << endl;
+  if (apartmentSizes.empty()) {
+    cout << "0" << endl;
+  } else {
+    for (size_t i = 0; i < apartmentSizes.size(); i++) {
+      cout << apartmentSizes[i];
+      if (i < apartmentSizes.size() - 1) cout << " ";
     }
+    cout << endl;
+  }
 
-    return 0;
+  return 0;
 }
