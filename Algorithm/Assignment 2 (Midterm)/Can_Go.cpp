@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int INF = 1e9;
+const int INF = 1e9+5;
 vector<pair<int, int>> adj[1001];
 vector<int> dist;
 
