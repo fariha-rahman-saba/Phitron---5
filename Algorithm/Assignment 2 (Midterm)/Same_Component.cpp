@@ -1,75 +1,49 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-char grid[20][20];
-bool visited[20][20];
-vector<pair<int, int>> directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-int n, m;
+const int N = 1005;
+vector<vector<char>> matrix(N, vector<char>(N));
+vector<vector<bool>> vis(N, vector<bool>(N));
+int rows, cols;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
 
-bool isValid(int i, int j) {
-    if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '-' || visited[i][j])
-        return false;
-    return true;
+bool isValid(int x, int y) {
+    return (x >= 0 && x < rows && y >= 0 && y < cols && matrix[x][y] == '.' && !vis[x][y]);
 }
 
-void bfs(int si, int sj) {
-    queue<pair<int, int>> q;
-    q.push({si, sj});
-    visited[si][sj] = true;
-    
-    while (!q.empty()) {
-        auto [x, y] = q.front();
-        q.pop();
-        
-        for (auto dir : directions) {
-            int ni = x + dir.first;
-            int nj = y + dir.second;
-            
-            if (isValid(ni, nj)) {
-                q.push({ni, nj});
-                visited[ni][nj] = true;
-            }
+void dfs(int x, int y) {
+    vis[x][y] = true;
+    for (int i = 0; i < 4; ++i) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        if (isValid(nx, ny)) {
+            dfs(nx, ny);
         }
     }
 }
 
 int main() {
-    cin >> n >> m;
+    cin >> rows >> cols;
 
-    if (n == 0 || m == 0) {
-        cout << "NO" << endl;
-        return 0;
-    }
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            cin >> grid[i][j];
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            cin >> matrix[i][j];
         }
     }
 
-    int si, sj, ti, tj;
-    cin >> si >> sj >> ti >> tj;
+    int x1, y1, x2, y2;
+    cin >> x1 >> y1 >> x2 >> y2;
 
-    if (si < 0 || si >= n || sj < 0 || sj >= m || ti < 0 || ti >= n || tj < 0 || tj >= m) {
-        cout << "NO" << endl;
-        return 0;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            vis[i][j] = false;
+        }
     }
 
-    if (grid[si][sj] == '-' || grid[ti][tj] == '-') {
-        cout << "NO" << endl;
-        return 0;
-    }
+    dfs(x1, y1);
 
-    if (si == ti && sj == tj) {
-        cout << "YES" << endl;
-        return 0;
-    }
-
-    memset(visited, false, sizeof(visited));
-
-    bfs(si, sj);
-
-    if (visited[ti][tj]) {
+    if (vis[x2][y2]) {
         cout << "YES" << endl;
     } else {
         cout << "NO" << endl;

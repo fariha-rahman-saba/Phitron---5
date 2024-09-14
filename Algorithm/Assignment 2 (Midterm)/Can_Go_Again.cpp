@@ -34,6 +34,11 @@ bool bellmanFord(int src) {
 int main() {
     cin >> n >> m;
 
+    if (n == 0 || m == 0) {
+        cout << "Not Possible" << endl;
+        return 0;
+    }
+
     edges.resize(m);
     for (int i = 0; i < m; ++i) {
         cin >> edges[i].u >> edges[i].v >> edges[i].w;
@@ -54,7 +59,9 @@ int main() {
         int dest;
         cin >> dest;
 
-        if (dist[dest] == INF) {
+        if (source == dest) {
+            cout << 0 << endl;
+        } else if (dist[dest] == INF) {
             cout << "Not Possible" << endl;
         } else {
             cout << dist[dest] << endl;
