@@ -1,66 +1,58 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
-const int INF = 1e9 + 5;
-vector<pair<int, int>> adj[1001];
-vector<int> dist;
-int n, m;
+const long long INF = 1e18 + 5;
+const int N = 1005;
 
-void dijkstra(int src) {
-    dist.assign(n + 1, INF);
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    
-    dist[src] = 0;
-    pq.push({0, src});
-    
-    while (!pq.empty()) {
-        int d = pq.top().first;
-        int u = pq.top().second;
-        pq.pop();
-        
-        if (d > dist[u]) continue;
-        
-        for (auto edge : adj[u]) {
-            int v = edge.first;
-            int weight = edge.second;
-            
-            if (dist[u] + weight < dist[v]) {
-                dist[v] = dist[u] + weight;
-                pq.push({dist[v], v});
-            }
-        }
-    }
-}
+#define ll long long int
+
+ll adj[N][N];
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    cin >> n >> m;
+    ll n, e;
+    cin >> n >> e;
 
     for (int i = 1; i <= n; ++i) {
-        adj[i].clear();
+        for (int j = 1; j <= n; ++j) {
+            adj[i][j] = INF;
+            if (i == j) adj[i][j] = 0;
+        }
     }
 
-    for (int i = 0; i < m; ++i) {
-        int u, v, w;
-        cin >> u >> v >> w;
-        adj[u].push_back({v, w});
+    for (int i = 0; i < e; ++i) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        adj[a][b] = min(adj[a][b], (ll)c);
+    }
+
+    for (int k = 1; k <= n; ++k) {
+        for (int i = 1; i <= n; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                if (adj[i][k] < INF && adj[k][j] < INF) {
+                    adj[i][j] = min(adj[i][j], adj[i][k] + adj[k][j]);
+                }
+            }
+        }
+
+        for (int i = 1; i <= n; ++i) {
+            if (adj[i][i] < 0) {
+                cout << "Negative Cycle Detected" << endl;
+                return 0;
+            }
+        }
     }
 
     int q;
     cin >> q;
-
     while (q--) {
         int src, dest;
         cin >> src >> dest;
 
-        dijkstra(src);
-
-        if (dist[dest] == INF) {
-            cout << -1 << endl;
+        if (adj[src][dest] == INF) {
+            cout << "-1" << endl;
         } else {
-            cout << dist[dest] << endl;
+            cout << adj[src][dest] << endl;
         }
     }
 
