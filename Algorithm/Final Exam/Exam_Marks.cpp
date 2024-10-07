@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool canAchievePerfectScore(int n, int target, vector<int>& marks) {
+    vector<bool> dp(target + 1, false);
+    dp[0] = true;
+
+    for (int mark : marks) {
+        for (int i = target; i >= mark; --i) {
+            if (dp[i - mark]) {
+                dp[i] = true;
+            }
+        }
+    }
+    return dp[target];
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, target;
+        cin >> n >> target;
+        vector<int> marks(n);
+        for (int i = 0; i < n; i++) {
+            cin >> marks[i];
+        }
+        if (canAchievePerfectScore(n, target, marks)) {
+            cout << "YES" << endl;
+        } else {
+            cout << "NO" << endl;
+        }
+    }
+    return 0;
+}
