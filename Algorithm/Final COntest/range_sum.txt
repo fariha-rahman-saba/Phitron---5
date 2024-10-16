@@ -1,0 +1,40 @@
+Range Sum or Pain Sum
+Problem
+Submissions
+Discussions
+There is a sequence of lengthN ,the property of the sequence is - 
+
+N>1 and N is even. 
+Sorted in non-decreasing order.
+Each element appears exactly twice from 1 to N/2. 
+You are given the value N and you are also given Q queries, where each query consists of two integers L and R. For each query, you need to find the sum of the elements in the sequence from position L to R. 
+
+Input Format
+
+The first line will contain a single positive integer N and Q , the length of the sequence and the number of queries respectively. 
+Next Q lines will contain L and R. 
+Constraints 1. 2<=N<=2*10^9 2. 1<=Q<=2*10^5 3. 1<=L, R<=N; Where L<=R 
+
+; Where .
+Output Format
+
+For each query find the sum of the elements in the sequence from position L to R.Don't forget to print a newline after each query. 
+
+Sample Input 0
+
+10 5
+3 8
+7 10
+3 7
+1 1
+1 10
+Sample Output 0
+
+18
+18
+14
+1
+30
+Explanation 0
+
+In the given test case N = 10 . So the sequence will be [1,1,2,2,3,3,4,4,5,5]. Now for first query L=3 and R=8. It represents the values [2,2,3,3,4,4] which belongs from the position L=3 to r=8(considering 1-base indexing) and hence the sum of 2+2+3+3+4+4 = 18 for the first query.
